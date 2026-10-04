@@ -2,7 +2,15 @@
 
 A visual glossary of 661 UI/UX terms in 33 categories. Every term is a card with a live, hand-drawn demo. Hit **Play with it** on any card to open a playground where you can restyle and edit that component, then generate a Claude Code prompt to build it for real.
 
-It's one static `index.html` file. No build step, no dependencies, no server.
+It's a static site: plain HTML, CSS and JavaScript. No build step, no dependencies, no server code.
+
+```
+index.html        markup
+css/style.css     all styles (light + dark)
+js/helpers.js     icons and drawing helpers
+js/terms.js       the 661 terms and their demos
+js/app.js         rendering, playground, prompt builder, share links
+```
 
 ## Features
 
@@ -16,7 +24,7 @@ It's one static `index.html` file. No build step, no dependencies, no server.
 
 ## Run it locally
 
-Open `index.html` in a browser. For share links and the clipboard, serve it over HTTP:
+Serve the folder over HTTP (opening `index.html` from disk works too, but share links, the clipboard and "Copy as full page" need a server):
 
 ```bash
 python -m http.server 8000
