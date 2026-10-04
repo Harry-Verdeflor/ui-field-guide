@@ -5,8 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>UI Field Guide — every interface term, drawn</title>
 <meta name="description" content="A visual glossary of 661 UI/UX terms. Every term has a live, hand-drawn demo and a playground that writes a Claude Code prompt to build it.">
-<meta name="theme-color" content="#f4f1ea" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#121110" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f4f1ea">
+<script>/* Light by default; apply a saved dark choice before first paint so there's no flash. */
+try{if(localStorage.getItem('ufg-theme')==='dark'){document.documentElement.dataset.theme='dark';document.querySelector('meta[name=theme-color]').content='#121110';}}catch(e){}</script>
 <meta property="og:type" content="website">
 <meta property="og:title" content="UI Field Guide">
 <meta property="og:description" content="Every interface term, drawn and defined. Play with any component, remix it, share the link.">

@@ -4,9 +4,7 @@
   --line:2.5px;--r:22px;color-scheme:light;
   box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
 }
-@media (prefers-color-scheme:dark){
-  :root:not([data-theme="light"]){--bg:#121110;--paper:#1c1b19;--ink:#f4f0e6;--mute:#a59f93;--soft:#2e2c28;color-scheme:dark}
-}
+/* Light is the default. Dark only applies when the visitor picks it with the smiley button. */
 :root[data-theme="dark"]{--bg:#121110;--paper:#1c1b19;--ink:#f4f0e6;--mute:#a59f93;--soft:#2e2c28;color-scheme:dark}
 *,*::before,*::after{box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:calc(env(safe-area-inset-top,0px) + 86px)}
@@ -14,9 +12,7 @@ html{scroll-behavior:smooth;scroll-padding-top:calc(env(safe-area-inset-top,0px)
 body{margin:0;background:var(--bg);color:var(--ink);font-family:'Archivo',system-ui,-apple-system,'Segoe UI',sans-serif;-webkit-font-smoothing:antialiased}
 body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:200;opacity:.09;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .6 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
-:root[data-theme="dark"] body::before{opacity:.18;filter:invert(1)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) body::before{opacity:.18;filter:invert(1)}}
-a{color:inherit}
+:root[data-theme="dark"] body::before{opacity:.18;filter:invert(1)}a{color:inherit}
 button{font:inherit;color:inherit}
 :focus-visible{outline:3px solid var(--ink);outline-offset:3px;border-radius:6px}
 .fr,h1,h2,h3{font-family:'Fraunces',Georgia,'Times New Roman',serif;font-weight:900;font-variation-settings:'SOFT' 100;letter-spacing:-.01em}
@@ -532,4 +528,52 @@ footer .cta{display:inline-flex;gap:18px;height:54px}
 @media (max-width:520px){
   .cards{grid-template-columns:1fr}
   .brand b{font-size:12px}
+}
+
+/* ---------- scrollbars: an ink pill on a drawn track ---------- */
+/* Chromium and Safari use the ::-webkit-scrollbar parts; Firefox gets the standard properties instead. */
+@supports not selector(::-webkit-scrollbar){*{scrollbar-color:var(--ink) transparent;scrollbar-width:thin}}
+::-webkit-scrollbar{width:12px;height:12px}
+::-webkit-scrollbar-track,::-webkit-scrollbar-corner{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--ink);border:3px solid transparent;border-radius:99px;background-clip:padding-box;min-height:40px}
+::-webkit-scrollbar-thumb:hover{border-width:2px}
+::-webkit-scrollbar-thumb:active{border-width:1px}
+::-webkit-scrollbar-button{display:none}
+/* the page itself (Chromium styles the viewport scrollbar from body): a wider pill with a ruled line down the track */
+body::-webkit-scrollbar{width:16px}
+body::-webkit-scrollbar-track{background:linear-gradient(90deg,var(--ink) 0 2.5px,var(--bg) 2.5px)}
+body::-webkit-scrollbar-thumb{border:4px solid transparent;border-left-width:6.5px;min-height:64px}
+body::-webkit-scrollbar-thumb:hover{border-width:3px;border-left-width:5.5px}
+/* the code and prompt boxes are always dark, so their thumb is light */
+.pgcode::-webkit-scrollbar-thumb{background-color:#f4f0e6}
+@supports not selector(::-webkit-scrollbar){.pgcode{scrollbar-color:#f4f0e6 transparent}}
+
+/* ---------- dropdowns: paper menu, ink border, hard shadow ---------- */
+.kn select,.ctl select,select.ib{cursor:pointer;accent-color:var(--ink)}
+.kn select option,.ctl select option,select.ib option{background:var(--paper);color:var(--ink)}
+/* Browsers with customizable <select> (Chromium 135+) get the fully drawn menu. Others keep the native list, colored above. */
+@supports (appearance:base-select){
+  .kn select,.ctl select,select.ib,
+  .kn select::picker(select),.ctl select::picker(select),select.ib::picker(select){appearance:base-select}
+  .kn select,.ctl select,select.ib{display:inline-flex;align-items:center;justify-content:space-between;gap:8px}
+  .kn select,.ctl select{padding:0 10px}
+  .kn select:hover,.ctl select:hover,select.ib:hover{background:var(--soft)}
+  .kn select:open,.ctl select:open,select.ib:open{box-shadow:3px 3px 0 var(--ink)}
+  select::picker-icon{content:"";width:9px;height:9px;flex:none;border:solid var(--ink);border-width:0 2.5px 2.5px 0;
+    transform:translateY(-2px) rotate(45deg);transition:transform .15s}
+  select:open::picker-icon{transform:translateY(2px) rotate(225deg)}
+  select.ib::picker-icon{width:6px;height:6px;border-width:0 2px 2px 0}
+  select::picker(select){border:2px solid var(--ink);border-radius:14px;background:var(--paper);color:var(--ink);
+    padding:5px;margin-block:6px;box-shadow:4px 4px 0 var(--ink);min-width:anchor-size(width);
+    opacity:1;transform:none;transition:opacity .14s,transform .14s,overlay .14s allow-discrete,display .14s allow-discrete}
+  select::picker(select):popover-open{@starting-style{opacity:0;transform:translateY(-4px)}}
+  select option{display:flex;align-items:center;gap:8px;min-height:32px;padding:0 12px 0 8px;border-radius:9px;
+    font:inherit;background:transparent;color:var(--ink);cursor:pointer}
+  select option::checkmark{content:"";width:14px;height:14px;flex:none;order:-1;
+    background:var(--ink);clip-path:path('M7 0c.4 3.3 1.5 5.6 7 7-5.5 1.4-6.6 3.7-7 7-.4-3.3-1.5-5.6-7-7 5.5-1.4 6.6-3.7 7-7z');visibility:hidden}
+  select option:checked::checkmark{visibility:visible}
+  select option:checked{font-weight:700}
+  select option:hover,select option:focus-visible{background:var(--soft);outline:none}
+  select option:checked:hover,select option:checked:focus-visible{background:var(--ink);color:var(--bg)}
+  select option:checked:hover::checkmark,select option:checked:focus-visible::checkmark{background:var(--bg)}
 }

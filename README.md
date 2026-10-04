@@ -1,6 +1,6 @@
 # UI Field Guide
 
-**[Open the live site →](https://harry-verdeflor.github.io/ui-field-guide/)**
+**[Open the live site →](https://ui-field-guide.github.io/)**
 
 A visual glossary of 661 UI/UX terms in 33 categories. Every term is a card with a live, hand-drawn demo. Hit **Play with it** on any card to open a playground where you can restyle and edit that component, then generate a Claude Code prompt to build it for real.
 
@@ -12,7 +12,7 @@ A visual glossary of 661 UI/UX terms in 33 categories. Every term is a card with
 
 ![Selection Controls category: cards for Checkbox, Radio Button and Toggle Switch, each with a live demo](docs/screenshots/cards.png)
 
-**Dark mode** follows your system setting, or switch it with the smiley button.
+**Light by default, dark on request.** The guide always opens in light mode. Tap the smiley button for dark mode and it remembers your choice.
 
 ![Feedback & Status category in dark mode](docs/screenshots/dark.png)
 
@@ -24,12 +24,17 @@ A visual glossary of 661 UI/UX terms in 33 categories. Every term is a card with
 
 ![Prompt tab with stack, TypeScript, tests and Storybook options above the generated prompt](docs/screenshots/prompt.png)
 
+**Drawn controls, down to the dropdowns and scrollbars.** Menus open as paper cards with a sparkle on the current choice, and scrollbars are ink pills that match the outlines.
+
+![Style dropdown open in the playground: a paper menu with a hard shadow and a sparkle next to Filled](docs/screenshots/dropdown.png)
+
 <p align="center"><img src="docs/screenshots/mobile.png" width="300" alt="The guide on a phone: Buttons & Actions category with the Primary Button card"></p>
 <p align="center"><em>Works on phones too.</em></p>
 
 ## Features
 
-- **Live demos** for every term, in light and dark mode.
+- **Live demos** for every term. Light mode by default, with a dark mode you can switch on (your choice is remembered).
+- **Custom dropdowns and scrollbars** in the same hand-drawn style. Dropdown menus use the browser's customizable `<select>` (Chrome and Edge 135+). Other browsers show their standard menu in the guide's colors.
 - **Playground** for each component: theme knobs, per-part editors, inspect, code view, undo/redo, state simulation and a side-by-side compare with the original.
 - **Prompt builder** that writes a full Claude Code prompt for your stack (React, Next.js, Vue, Svelte, SwiftUI, Compose, Flutter or plain HTML).
 - **Share links.** *Share link* in the playground copies a URL with your remix compressed into it. Whoever opens it sees your version. Nothing is uploaded anywhere.
@@ -62,7 +67,7 @@ Then open http://localhost:8000.
 
 ## Deploy
 
-It's hosted on GitHub Pages from the `main` branch, so every push to `main` updates the live site within a minute or two. Any other static host (Cloudflare Pages, Netlify, surge) works the same way: upload the folder as is.
+It's hosted on GitHub Pages at **https://ui-field-guide.github.io/**, published from the `main` branch of [`ui-field-guide/ui-field-guide.github.io`](https://github.com/ui-field-guide/ui-field-guide.github.io). Every push to `main` updates the live site within a minute or two. Any other static host (Cloudflare Pages, Netlify, surge) works the same way: upload the folder as is.
 
 ## Working on it
 

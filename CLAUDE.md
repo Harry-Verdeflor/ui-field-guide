@@ -10,7 +10,8 @@ A static, single-page visual glossary of 661 UI/UX terms in 33 categories. Each 
 ## Visual style (keep it consistent)
 - Black ink on cream paper, thick 2.5px outlines, pill buttons, 4-point sparkle accents, subtle grain overlay, hard offset shadows.
 - Fraunces 900 with `'SOFT' 100` for display text, Archivo for UI text and uppercase labels, Courier Prime for small mono labels.
-- Colors only through CSS variables on `:root`: `--bg --paper --ink --mute --soft --danger --ok`, plus `--bw` (demo border width). Dark mode redefines them under `prefers-color-scheme: dark` and `:root[data-theme="dark"]`.
+- Colors only through CSS variables on `:root`: `--bg --paper --ink --mute --soft --danger --ok`, plus `--bw` (demo border width). Light is always the default. Dark mode redefines them only under `:root[data-theme="dark"]`, set by the smiley button (`setTheme()` in `app.js`, saved as localStorage `ufg-theme`, applied by a tiny inline script in `<head>` before paint). Don't add `prefers-color-scheme: dark` rules.
+- Scrollbars and dropdowns are drawn too: see the scrollbar and dropdown blocks at the end of `css/style.css`. The page scrollbar is styled with `body::-webkit-scrollbar` (Chromium takes the viewport's scrollbar from `body`). Dropdowns use `appearance: base-select` inside `@supports`; Escape in an open dropdown closes only the dropdown, not the playground.
 
 ## File map
 The scripts are classic (not modules) and share globals, so they must load in this order: `helpers.js` → `terms.js` → `app.js`.
@@ -41,3 +42,4 @@ The scripts are classic (not modules) and share globals, so they must load in th
   `[...document.querySelectorAll('.card')].filter(c=>{const s=c.querySelector('.st');return s.scrollWidth>s.clientWidth+2||s.scrollHeight>s.clientHeight+2}).map(c=>c.querySelector('h3').textContent)` should return `[]`.
 - Every playground opens: `ALL.forEach((_,i)=>openPG(i,null))` runs without throwing.
 - Check both light and dark mode (smiley button in the top bar), and a narrow mobile width.
+- Live site: https://ui-field-guide.github.io/ (GitHub Pages from `main` of `ui-field-guide/ui-field-guide.github.io`). README screenshots live in `docs/screenshots/`; retake them when the UI changes.

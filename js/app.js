@@ -669,15 +669,20 @@ const sheet=document.getElementById('sheetNav'),menuBtn=document.getElementById(
 const setSheet=o=>{sheet.classList.toggle('open',o);sheet.setAttribute('aria-hidden',!o);menuBtn.setAttribute('aria-expanded',o);if(o)sheet.querySelector('a').focus();};
 menuBtn.addEventListener('click',()=>setSheet(!sheet.classList.contains('open')));
 sheet.addEventListener('click',e=>{if(e.target.closest('[data-close],a'))setSheet(false);});
-addEventListener('keydown',e=>{if(e.key==='Escape'){setSheet(false);closePG();}
+/* Escape inside an open dropdown only closes that dropdown. Checked while capturing, before the browser closes the picker. */
+let escInPicker=false;
+document.addEventListener('keydown',e=>{if(e.key!=='Escape')return;const s=e.target.closest&&e.target.closest('select');
+  try{escInPicker=!!s&&s.matches(':open');}catch(_){escInPicker=false;}},true);
+addEventListener('keydown',e=>{if(e.key==='Escape'){if(escInPicker){escInPicker=false;return;}setSheet(false);closePG();}
   else if(e.key==='/'&&!e.ctrlKey&&!e.metaKey&&!e.altKey&&!pgm.classList.contains('open')&&!e.target.closest('input,textarea,select,[contenteditable="true"]')){e.preventDefault();q.focus();q.select();}});
 routeHash();
 
 /* theme */
-const root=document.documentElement;
-try{const saved=localStorage.getItem('ufg-theme');if(saved)root.dataset.theme=saved;}catch(e){}
-document.getElementById('themeBtn').addEventListener('click',()=>{
-  const cur=root.dataset.theme||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');
-  const next=cur==='dark'?'light':'dark';root.dataset.theme=next;
-  try{localStorage.setItem('ufg-theme',next);}catch(e){}
-});
+/* Light is the default for everyone; dark is only ever the visitor's own choice (saved, and applied early in <head>). */
+const root=document.documentElement,themeBtn=$('themeBtn'),themeMeta=document.querySelector('meta[name=theme-color]');
+const setTheme=t=>{if(t==='dark')root.dataset.theme='dark';else delete root.dataset.theme;
+  const dark=t==='dark';themeBtn.setAttribute('aria-pressed',dark);themeBtn.setAttribute('aria-label',dark?'Switch to light theme':'Switch to dark theme');
+  if(themeMeta)themeMeta.content=dark?'#121110':'#f4f1ea';};
+setTheme(root.dataset.theme==='dark'?'dark':'light');
+themeBtn.addEventListener('click',()=>{const next=root.dataset.theme==='dark'?'light':'dark';setTheme(next);
+  try{localStorage.setItem('ufg-theme',next);}catch(e){}});
